@@ -21,6 +21,7 @@ const isPrime = (num) => {
   return true;
 };
 
+
 // Function to check if a number is perfect
 const isPerfect = (num) => {
   let sum = 0;
@@ -30,6 +31,7 @@ const isPerfect = (num) => {
   return sum === num;
 };
 
+
 // Function to check if a number is Armstrong
 const isArmstrong = (num) => {
   const digits = num.toString().split("");
@@ -37,34 +39,46 @@ const isArmstrong = (num) => {
   return sum === num;
 };
 
+
 // Function to calculate digit sum
 const digitSum = (num) => {
   return num.toString().split("").reduce((sum, digit) => sum + parseInt(digit), 0);
 };
 
-// Define the random facts API
-app.get("/api/classify-number?number=371", (req, res) => {
-  const number = parseInt(req.query.number);
+
+// Define the new route for classifying the number
+app.get("/api/classify-number", (req, res) => {
+  const number = req.query.number;
+
+  if (isNaN(number)) {
+    return res.status(400).json({
+      number: number,
+      error: true
+    });
+  }
+
+  const num = parseInt(number);
 
   const properties = [];
-  if (isArmstrong(number)) properties.push("armstrong");
-  if (number % 2 !== 0) properties.push("odd");
+  if (isArmstrong(num)) properties.push("armstrong");
+  if (num % 2 !== 0) properties.push("odd");
 
-  const funFact = `${number} is an ${properties.includes("odd") ? "odd" : "even"} number`;
+  const funFact = `${num} is an ${properties.includes("odd") ? "odd" : "even"} number`;
 
   const response = {
-    number: number,
-    is_prime: isPrime(number),
-    is_perfect: isPerfect(number),
+    number: num,
+    is_prime: isPrime(num),
+    is_perfect: isPerfect(num),
     properties: properties,
-    digit_sum: digitSum(number),
+    digit_sum: digitSum(num),
     fun_fact: funFact,
   };
 
   res.json(response);
 });
 
+
 // Start the server
-app.listen(port, () => {
+app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
