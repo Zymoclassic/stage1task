@@ -57,7 +57,11 @@ app.get("/api/classify-number", async (req, res) => {
 
   const properties = [];
   if (isArmstrong(num)) properties.push("armstrong");
-  if (num % 2 !== 0) properties.push("odd");
+  if (num % 2 !== 0){
+    properties.push("odd")
+  } else {
+    properties.push("even")
+  };
 
   // Fetch fun fact from numbersapi.com
   try {
