@@ -33,6 +33,14 @@ const digitSum = (num) => {
   return num.toString().split("").reduce((sum, digit) => sum + parseInt(digit), 0);
 };
 
+//homepage
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "To use the API, try 'numberrandomfact.vercel.app/api/classify-number?number=371'.",
+    note: "You can replace 371 with any number of your choice."
+  })
+})
+
 // Define the new route for classifying the number
 app.get("/api/classify-number", async (req, res) => {
   const number = req.query.number;
