@@ -77,7 +77,7 @@ app.get("/api/classify-number", async (req, res) => {
       fun_fact: funFact,
     };
 
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({
       error: "Failed to fetch fun fact from numbersapi.com"
